@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/suite"
-	"gorm.io/gorm"
 )
 
 // SeederTestSuite is a comprehensive test suite for the seeder package
@@ -17,7 +16,7 @@ type SeederTestSuite struct {
 
 // SetupTest runs before each test
 func (suite *SeederTestSuite) SetupTest() {
-	suite.manager = NewSeederManager(&gorm.DB{})
+	suite.manager = NewSeederManager()
 	suite.helper = &TestHelper{}
 }
 
@@ -459,7 +458,7 @@ func TestSeederTestSuite(t *testing.T) {
 
 // BenchmarkSeederManager benchmarks the SeederManager performance
 func BenchmarkSeederManager(b *testing.B) {
-	manager := NewSeederManager(&gorm.DB{})
+	manager := NewSeederManager()
 
 	// Register seeders
 	for i := 0; i < 100; i++ {
@@ -490,7 +489,7 @@ func BenchmarkSeederManager(b *testing.B) {
 
 // BenchmarkCLI benchmarks the CLI performance
 func BenchmarkCLI(b *testing.B) {
-	manager := NewSeederManager(&gorm.DB{})
+	manager := NewSeederManager()
 	manager.RegisterSeeder("test", func() error { return nil })
 	cli := NewCLI(manager)
 

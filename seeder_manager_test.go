@@ -6,13 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"gorm.io/gorm"
 )
-
-// MockDB is a mock implementation of gorm.DB for testing
-type MockDB struct {
-	mock.Mock
-}
 
 // MockSeederManagerForManager is a mock implementation of SeederManager for testing
 type MockSeederManagerForManager struct {
@@ -38,11 +32,9 @@ func TestSeederItem(t *testing.T) {
 // TestNewSeederManager tests the NewSeederManager function
 func TestNewSeederManager(t *testing.T) {
 	t.Run("Create new seeder manager", func(t *testing.T) {
-		db := &gorm.DB{}
-		manager := NewSeederManager(db)
+		manager := NewSeederManager()
 
 		assert.NotNil(t, manager)
-		assert.Equal(t, db, manager.db)
 		assert.NotNil(t, manager.seeders)
 		assert.NotNil(t, manager.seederMap)
 		assert.Len(t, manager.seeders, 0)
@@ -53,7 +45,7 @@ func TestNewSeederManager(t *testing.T) {
 // TestRegisterSeeder tests the RegisterSeeder method
 func TestRegisterSeeder(t *testing.T) {
 	t.Run("Register valid seeder", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		name := "test_seeder"
 		function := func() error { return nil }
 
@@ -67,7 +59,7 @@ func TestRegisterSeeder(t *testing.T) {
 	})
 
 	t.Run("Register seeder with empty name", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		function := func() error { return nil }
 
 		err := manager.RegisterSeeder("", function)
@@ -79,7 +71,7 @@ func TestRegisterSeeder(t *testing.T) {
 	})
 
 	t.Run("Register duplicate seeder", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		name := "test_seeder"
 		function1 := func() error { return nil }
 		function2 := func() error { return nil }
@@ -95,7 +87,7 @@ func TestRegisterSeeder(t *testing.T) {
 	})
 
 	t.Run("Register multiple unique seeders", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		err1 := manager.RegisterSeeder("seeder1", func() error { return nil })
 		err2 := manager.RegisterSeeder("seeder2", func() error { return nil })
@@ -112,7 +104,7 @@ func TestRegisterSeeder(t *testing.T) {
 // TestRegisterSeeders tests the RegisterSeeders method
 func TestRegisterSeeders(t *testing.T) {
 	t.Run("Register multiple seeders successfully", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		seeders := []SeederItem{
 			{Name: "seeder1", Function: func() error { return nil }},
@@ -128,7 +120,7 @@ func TestRegisterSeeders(t *testing.T) {
 	})
 
 	t.Run("Register seeders with duplicate name", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		seeders := []SeederItem{
 			{Name: "seeder1", Function: func() error { return nil }},
@@ -143,7 +135,7 @@ func TestRegisterSeeders(t *testing.T) {
 	})
 
 	t.Run("Register empty seeders list", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		err := manager.RegisterSeeders()
 
@@ -156,7 +148,7 @@ func TestRegisterSeeders(t *testing.T) {
 // TestGetRegisteredSeeders tests the GetRegisteredSeeders method
 func TestGetRegisteredSeeders(t *testing.T) {
 	t.Run("Get empty seeders list", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		seeders := manager.GetRegisteredSeeders()
 
@@ -165,7 +157,7 @@ func TestGetRegisteredSeeders(t *testing.T) {
 	})
 
 	t.Run("Get registered seeders", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		manager.RegisterSeeder("seeder1", func() error { return nil })
 		manager.RegisterSeeder("seeder2", func() error { return nil })
@@ -180,7 +172,7 @@ func TestGetRegisteredSeeders(t *testing.T) {
 	})
 
 	t.Run("Get seeders in registration order", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		manager.RegisterSeeder("first", func() error { return nil })
 		manager.RegisterSeeder("second", func() error { return nil })
@@ -197,7 +189,7 @@ func TestGetRegisteredSeeders(t *testing.T) {
 // TestRunSeederByName tests the RunSeederByName method
 func TestRunSeederByName(t *testing.T) {
 	t.Run("Run existing seeder successfully", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		executed := false
 
 		manager.RegisterSeeder("test_seeder", func() error {
@@ -212,7 +204,7 @@ func TestRunSeederByName(t *testing.T) {
 	})
 
 	t.Run("Run non-existing seeder", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		err := manager.RunSeederByName("non_existing")
 
@@ -221,7 +213,7 @@ func TestRunSeederByName(t *testing.T) {
 	})
 
 	t.Run("Run seeder that returns error", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		expectedError := errors.New("seeder error")
 
 		manager.RegisterSeeder("error_seeder", func() error {
@@ -239,7 +231,7 @@ func TestRunSeederByName(t *testing.T) {
 // TestRunSeedersInOrder tests the RunSeedersInOrder method
 func TestRunSeedersInOrder(t *testing.T) {
 	t.Run("Run seeders in order successfully", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		executionOrder := []string{}
 
 		manager.RegisterSeeder("first", func() error {
@@ -263,7 +255,7 @@ func TestRunSeedersInOrder(t *testing.T) {
 	})
 
 	t.Run("Run seeders with one failing", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		executionOrder := []string{}
 		expectedError := errors.New("second seeder failed")
 
@@ -288,7 +280,7 @@ func TestRunSeedersInOrder(t *testing.T) {
 	})
 
 	t.Run("Run empty order list", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		err := manager.RunSeedersInOrder([]string{})
 
@@ -296,7 +288,7 @@ func TestRunSeedersInOrder(t *testing.T) {
 	})
 
 	t.Run("Run order with non-existing seeder", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		manager.RegisterSeeder("existing", func() error { return nil })
 
@@ -311,7 +303,7 @@ func TestRunSeedersInOrder(t *testing.T) {
 // TestRunAllSeeders tests the RunAllSeeders method
 func TestRunAllSeeders(t *testing.T) {
 	t.Run("Run all seeders successfully", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		executionOrder := []string{}
 
 		manager.RegisterSeeder("seeder1", func() error {
@@ -334,7 +326,7 @@ func TestRunAllSeeders(t *testing.T) {
 	})
 
 	t.Run("Run all seeders with one failing", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		executionOrder := []string{}
 		expectedError := errors.New("seeder2 failed")
 
@@ -359,7 +351,7 @@ func TestRunAllSeeders(t *testing.T) {
 	})
 
 	t.Run("Run all seeders when none registered", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		err := manager.RunAllSeeders()
 
@@ -370,7 +362,7 @@ func TestRunAllSeeders(t *testing.T) {
 // TestIsSeederRegistered tests the IsSeederRegistered method
 func TestIsSeederRegistered(t *testing.T) {
 	t.Run("Check registered seeder", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		manager.RegisterSeeder("test_seeder", func() error { return nil })
 
@@ -378,13 +370,13 @@ func TestIsSeederRegistered(t *testing.T) {
 	})
 
 	t.Run("Check non-registered seeder", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		assert.False(t, manager.IsSeederRegistered("non_existing"))
 	})
 
 	t.Run("Check empty name", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		assert.False(t, manager.IsSeederRegistered(""))
 	})
@@ -393,7 +385,7 @@ func TestIsSeederRegistered(t *testing.T) {
 // TestSeederManagerIntegration tests integration scenarios
 func TestSeederManagerIntegration(t *testing.T) {
 	t.Run("Complete workflow", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		executionLog := []string{}
 
 		// Register multiple seeders

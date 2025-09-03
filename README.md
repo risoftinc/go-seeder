@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/risoftinc/go-seeder)](https://goreportcard.com/report/github.com/risoftinc/go-seeder)
 
-A flexible and extensible database seeder package for Go applications using GORM. Perfect for seeding your database with initial data, test data, or sample data.
+A flexible and extensible seeder package for Go applications. Perfect for seeding your application with initial data, test data, or sample data.
 
 ## ✨ Features
 
@@ -14,8 +14,7 @@ A flexible and extensible database seeder package for Go applications using GORM
 - ✅ **Validation**: Automatic validation of seeder names and uniqueness
 - 🛡️ **Error Handling**: Comprehensive error handling and logging
 - 📋 **Execution Order**: Support for running seeders in specific order
-- 🔧 **GORM Integration**: Seamless integration with GORM ORM
-- 📦 **Zero Dependencies**: No external dependencies beyond GORM
+- 📦 **Zero Dependencies**: No external dependencies
 
 ## 📦 Installation
 
@@ -33,15 +32,11 @@ package main
 import (
     "log"
     "github.com/risoftinc/go-seeder"
-    "gorm.io/gorm"
 )
 
 func main() {
-    // Your database connection
-    var db *gorm.DB
-    
     // Create seeder manager
-    manager := seeder.NewSeederManager(db)
+    manager := seeder.NewSeederManager()
     
     // Register a seeder
     manager.RegisterSeeder("users", func() error {
@@ -65,15 +60,11 @@ package main
 import (
     "log"
     "github.com/risoftinc/go-seeder"
-    "gorm.io/gorm"
 )
 
 func main() {
-    // Your database connection
-    var db *gorm.DB
-    
     // Create seeder manager
-    manager := seeder.NewSeederManager(db)
+    manager := seeder.NewSeederManager()
     
     // Register seeders
     manager.RegisterSeeder("users", func() error {
@@ -135,7 +126,7 @@ Quick commands:
 
 ### SeederManager
 
-#### `NewSeederManager(db *gorm.DB) *SeederManager`
+#### `NewSeederManager() *SeederManager`
 Creates a new seeder manager instance.
 
 #### `RegisterSeeder(name string, function func() error) error`
@@ -262,7 +253,7 @@ cli := seeder.NewCLIWithAppName(manager, "./my-app seeder")
 cli := seeder.NewCLIWithAppName(manager, "docker run my-app seeder")
 ```
 
-### Real-world Example with GORM
+### Real-world Example
 
 ```go
 package main
@@ -270,21 +261,17 @@ package main
 import (
     "log"
     "github.com/risoftinc/go-seeder"
-    "gorm.io/gorm"
 )
 
 type User struct {
-    ID    uint   `gorm:"primaryKey"`
-    Name  string `gorm:"size:100"`
-    Email string `gorm:"size:100;uniqueIndex"`
+    ID    uint
+    Name  string
+    Email string
 }
 
 func main() {
-    // Your database connection
-    var db *gorm.DB
-    
     // Create seeder manager
-    manager := seeder.NewSeederManager(db)
+    manager := seeder.NewSeederManager()
     
     // Register user seeder
     manager.RegisterSeeder("users", func() error {
@@ -293,10 +280,11 @@ func main() {
             {Name: "Jane Smith", Email: "jane@example.com"},
         }
         
+        // Your seeding logic here
+        // For example, save to database, create files, etc.
         for _, user := range users {
-            if err := db.Create(&user).Error; err != nil {
-                return err
-            }
+            log.Printf("Creating user: %s (%s)", user.Name, user.Email)
+            // Add your logic to save the user
         }
         
         log.Printf("Created %d users", len(users))
@@ -363,9 +351,8 @@ Make seeders idempotent (safe to run multiple times):
 ```go
 manager.RegisterSeeder("users", func() error {
     // Check if users already exist
-    var count int64
-    db.Model(&User{}).Count(&count)
-    if count > 0 {
+    // Add your logic to check if data already exists
+    if usersAlreadyExist() {
         log.Println("Users already exist, skipping...")
         return nil
     }
@@ -392,12 +379,8 @@ manager.RegisterSeeder("users", func() error {
 
 ```go
 func TestSeeder(t *testing.T) {
-    // Setup test database
-    db := setupTestDB(t)
-    defer cleanupTestDB(t, db)
-    
     // Create seeder manager
-    manager := seeder.NewSeederManager(db)
+    manager := seeder.NewSeederManager()
     
     // Register test seeder
     manager.RegisterSeeder("test", func() error {
@@ -431,7 +414,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- [GORM](https://gorm.io/) - The fantastic ORM library for Go
 - [Go](https://golang.org/) - The amazing programming language
 
 ## 📞 Support

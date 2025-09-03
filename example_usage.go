@@ -2,14 +2,12 @@ package seeder
 
 import (
 	"log"
-
-	"gorm.io/gorm"
 )
 
 // ExampleBasicUsage demonstrates basic seeder usage
-func ExampleBasicUsage(db *gorm.DB) {
+func ExampleBasicUsage() {
 	// Create seeder manager
-	manager := NewSeederManager(db)
+	manager := NewSeederManager()
 
 	// Register individual seeder
 	manager.RegisterSeeder("custom_seeder", func() error {
@@ -26,9 +24,9 @@ func ExampleBasicUsage(db *gorm.DB) {
 }
 
 // ExampleVariadicUsage demonstrates variadic seeder registration
-func ExampleVariadicUsage(db *gorm.DB) {
+func ExampleVariadicUsage() {
 	// Create seeder manager
-	manager := NewSeederManager(db)
+	manager := NewSeederManager()
 
 	// Register multiple seeders at once
 	seeders := []SeederItem{
@@ -55,9 +53,9 @@ func ExampleVariadicUsage(db *gorm.DB) {
 }
 
 // ExampleCLIUsage demonstrates CLI usage with custom app name
-func ExampleCLIUsage(db *gorm.DB) {
+func ExampleCLIUsage() {
 	// Create seeder manager
-	manager := NewSeederManager(db)
+	manager := NewSeederManager()
 
 	// Register some seeders
 	manager.RegisterSeeder("test_seeder", func() error {
@@ -76,9 +74,9 @@ func ExampleCLIUsage(db *gorm.DB) {
 }
 
 // ExampleLibraryUsage demonstrates using seeder as a library (no CLI)
-func ExampleLibraryUsage(db *gorm.DB) {
+func ExampleLibraryUsage() {
 	// Create seeder manager
-	manager := NewSeederManager(db)
+	manager := NewSeederManager()
 
 	// Register seeders
 	manager.RegisterSeeder("users", func() error {

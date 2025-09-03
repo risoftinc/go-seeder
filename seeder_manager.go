@@ -3,8 +3,6 @@ package seeder
 import (
 	"fmt"
 	"log"
-
-	"gorm.io/gorm"
 )
 
 // SeederItem represents a single seeder with its name and function
@@ -15,15 +13,13 @@ type SeederItem struct {
 
 // SeederManager manages all registered seeders
 type SeederManager struct {
-	db        *gorm.DB
 	seeders   []SeederItem
 	seederMap map[string]func() error
 }
 
 // NewSeederManager creates a new seeder manager instance
-func NewSeederManager(db *gorm.DB) *SeederManager {
+func NewSeederManager() *SeederManager {
 	return &SeederManager{
-		db:        db,
 		seeders:   make([]SeederItem, 0),
 		seederMap: make(map[string]func() error),
 	}

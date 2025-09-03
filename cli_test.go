@@ -5,13 +5,12 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"gorm.io/gorm"
 )
 
 // TestNewCLI tests the NewCLI function
 func TestNewCLI(t *testing.T) {
 	t.Run("Create CLI with default app name", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		cli := NewCLI(manager)
 
@@ -24,7 +23,7 @@ func TestNewCLI(t *testing.T) {
 // TestNewCLIWithAppName tests the NewCLIWithAppName function
 func TestNewCLIWithAppName(t *testing.T) {
 	t.Run("Create CLI with custom app name", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		appName := "my-custom-app"
 
 		cli := NewCLIWithAppName(manager, appName)
@@ -35,7 +34,7 @@ func TestNewCLIWithAppName(t *testing.T) {
 	})
 
 	t.Run("Create CLI with empty app name", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		cli := NewCLIWithAppName(manager, "")
 
@@ -47,7 +46,7 @@ func TestNewCLIWithAppName(t *testing.T) {
 // TestCLIUsage tests the Usage method
 func TestCLIUsage(t *testing.T) {
 	t.Run("Usage with no registered seeders", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		cli := NewCLI(manager)
 
 		// Test that Usage doesn't panic
@@ -57,7 +56,7 @@ func TestCLIUsage(t *testing.T) {
 	})
 
 	t.Run("Usage with registered seeders", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		manager.RegisterSeeder("users", func() error { return nil })
 		manager.RegisterSeeder("departments", func() error { return nil })
 		manager.RegisterSeeder("roles", func() error { return nil })
@@ -71,7 +70,7 @@ func TestCLIUsage(t *testing.T) {
 	})
 
 	t.Run("Usage with custom app name", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		manager.RegisterSeeder("test", func() error { return nil })
 
 		cli := NewCLIWithAppName(manager, "my-app")
@@ -86,7 +85,7 @@ func TestCLIUsage(t *testing.T) {
 // TestCLIRun tests the Run method
 func TestCLIRun(t *testing.T) {
 	t.Run("Run with no type flag shows usage", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		manager.RegisterSeeder("test", func() error { return nil })
 
 		// Test that Run doesn't panic when no type is specified
@@ -97,7 +96,7 @@ func TestCLIRun(t *testing.T) {
 	})
 
 	t.Run("Run with type=all", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		manager.RegisterSeeder("test", func() error { return nil })
 
 		// Test that Run doesn't panic
@@ -112,7 +111,7 @@ func TestCLIRun(t *testing.T) {
 func TestCLIIntegration(t *testing.T) {
 	t.Run("Complete CLI workflow", func(t *testing.T) {
 		// Create a real seeder manager for integration test
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		// Register some seeders
 		manager.RegisterSeeder("users", func() error { return nil })
@@ -142,7 +141,7 @@ func TestCLIEdgeCases(t *testing.T) {
 	})
 
 	t.Run("Usage with special characters in app name", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		manager.RegisterSeeder("test", func() error { return nil })
 
 		cli := NewCLIWithAppName(manager, "my-app@v1.0")
@@ -154,7 +153,7 @@ func TestCLIEdgeCases(t *testing.T) {
 	})
 
 	t.Run("Usage with very long seeder names", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		longSeederName := strings.Repeat("a", 100)
 		manager.RegisterSeeder(longSeederName, func() error { return nil })
 
@@ -170,7 +169,7 @@ func TestCLIEdgeCases(t *testing.T) {
 // TestCLIWithRealManager tests CLI with a real SeederManager
 func TestCLIWithRealManager(t *testing.T) {
 	t.Run("CLI with real manager - usage", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 
 		// Register some seeders
 		manager.RegisterSeeder("users", func() error { return nil })
@@ -185,7 +184,7 @@ func TestCLIWithRealManager(t *testing.T) {
 	})
 
 	t.Run("CLI with real manager - run all", func(t *testing.T) {
-		manager := NewSeederManager(&gorm.DB{})
+		manager := NewSeederManager()
 		executionLog := []string{}
 
 		// Register seeders that log their execution
