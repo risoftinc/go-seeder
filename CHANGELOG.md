@@ -20,7 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CLI support with customizable app names
 - Variadic seeder registration
 - Comprehensive error handling and validation
-- GORM integration
 - Example usage documentation
 
 ### Features
