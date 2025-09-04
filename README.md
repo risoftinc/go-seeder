@@ -2,7 +2,6 @@
 
 [![Go Version](https://img.shields.io/badge/go-%3E%3D1.19-blue.svg)](https://golang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/risoftinc/goseeder)](https://goreportcard.com/report/github.com/risoftinc/goseeder)
 
 A flexible and extensible seeder package for Go applications. Perfect for seeding your application with initial data, test data, or sample data.
 
