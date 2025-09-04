@@ -2,7 +2,7 @@
 
 [![Go Version](https://img.shields.io/badge/go-%3E%3D1.19-blue.svg)](https://golang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/risoftinc/go-seeder)](https://goreportcard.com/report/github.com/risoftinc/go-seeder)
+[![Go Report Card](https://goreportcard.com/badge/github.com/risoftinc/seeder)](https://goreportcard.com/report/github.com/risoftinc/seeder)
 
 A flexible and extensible seeder package for Go applications. Perfect for seeding your application with initial data, test data, or sample data.
 
@@ -19,7 +19,7 @@ A flexible and extensible seeder package for Go applications. Perfect for seedin
 ## 📦 Installation
 
 ```bash
-go get github.com/risoftinc/go-seeder
+go get github.com/risoftinc/seeder
 ```
 
 ## 🚀 Quick Start
@@ -31,7 +31,7 @@ package main
 
 import (
     "log"
-    "github.com/risoftinc/go-seeder"
+    "github.com/risoftinc/seeder"
 )
 
 func main() {
@@ -59,7 +59,7 @@ package main
 
 import (
     "log"
-    "github.com/risoftinc/go-seeder"
+    "github.com/risoftinc/seeder"
 )
 
 func main() {
@@ -260,7 +260,7 @@ package main
 
 import (
     "log"
-    "github.com/risoftinc/go-seeder"
+    "github.com/risoftinc/seeder"
 )
 
 type User struct {
@@ -420,7 +420,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you have any questions or need help, please:
 
-1. Check the [Issues](https://github.com/risoftinc/go-seeder/issues) page
+1. Check the [Issues](https://github.com/risoftinc/seeder/issues) page
 2. Create a new issue if your question isn't already answered
 3. Join our community discussions
 

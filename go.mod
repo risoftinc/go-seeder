@@ -1,4 +1,4 @@
-module github.com/risoftinc/go-seeder
+module github.com/risoftinc/seeder
 
 go 1.24.6
 
