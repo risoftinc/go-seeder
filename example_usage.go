@@ -1,4 +1,4 @@
-package seeder
+package goseeder
 
 import (
 	"log"

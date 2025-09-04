@@ -2,7 +2,7 @@
 
 [![Go Version](https://img.shields.io/badge/go-%3E%3D1.19-blue.svg)](https://golang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/risoftinc/seeder)](https://goreportcard.com/report/github.com/risoftinc/seeder)
+[![Go Report Card](https://goreportcard.com/badge/github.com/risoftinc/goseeder)](https://goreportcard.com/report/github.com/risoftinc/goseeder)
 
 A flexible and extensible seeder package for Go applications. Perfect for seeding your application with initial data, test data, or sample data.
 
@@ -19,7 +19,7 @@ A flexible and extensible seeder package for Go applications. Perfect for seedin
 ## 📦 Installation
 
 ```bash
-go get github.com/risoftinc/seeder
+go get github.com/risoftinc/goseeder
 ```
 
 ## 🚀 Quick Start
@@ -31,12 +31,12 @@ package main
 
 import (
     "log"
-    "github.com/risoftinc/seeder"
+    "github.com/risoftinc/goseeder"
 )
 
 func main() {
     // Create seeder manager
-    manager := seeder.NewSeederManager()
+    manager := goseeder.NewSeederManager()
     
     // Register a seeder
     manager.RegisterSeeder("users", func() error {
@@ -59,12 +59,12 @@ package main
 
 import (
     "log"
-    "github.com/risoftinc/seeder"
+    "github.com/risoftinc/goseeder"
 )
 
 func main() {
     // Create seeder manager
-    manager := seeder.NewSeederManager()
+    manager := goseeder.NewSeederManager()
     
     // Register seeders
     manager.RegisterSeeder("users", func() error {
@@ -73,7 +73,7 @@ func main() {
     })
     
     // Create CLI with custom app name
-    cli := seeder.NewCLIWithAppName(manager, "my-app seeder")
+    cli := goseeder.NewCLIWithAppName(manager, "my-app seeder")
     
     // Run CLI (parses command line arguments)
     if err := cli.Run(); err != nil {
@@ -224,7 +224,7 @@ Represents a single seeder with its name and function.
 ### Variadic Registration
 
 ```go
-seeders := []seeder.SeederItem{
+seeders := []goseeder.SeederItem{
     {Name: "users", Function: func() error {
         log.Println("Seeding users...")
         return nil
@@ -260,7 +260,7 @@ package main
 
 import (
     "log"
-    "github.com/risoftinc/seeder"
+    "github.com/risoftinc/goseeder"
 )
 
 type User struct {
@@ -271,7 +271,7 @@ type User struct {
 
 func main() {
     // Create seeder manager
-    manager := seeder.NewSeederManager()
+    manager := goseeder.NewSeederManager()
     
     // Register user seeder
     manager.RegisterSeeder("users", func() error {
@@ -380,7 +380,7 @@ manager.RegisterSeeder("users", func() error {
 ```go
 func TestSeeder(t *testing.T) {
     // Create seeder manager
-    manager := seeder.NewSeederManager()
+    manager := goseeder.NewSeederManager()
     
     // Register test seeder
     manager.RegisterSeeder("test", func() error {

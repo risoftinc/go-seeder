@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-09-03
 
 ### Added
-- Initial release of go-seeder package
+- Initial release of goseeder package
 - SeederManager for managing database seeders
 - CLI support with customizable app names
 - Variadic seeder registration
