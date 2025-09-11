@@ -12,21 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Features
 - 
 
-## [1.0.0] - 2025-09-03
+## [1.2.0] - 2025-09-12
 
-### Added
-- Initial release of goseeder package
-- SeederManager for managing database seeders
-- CLI support with customizable app names
-- Variadic seeder registration
-- Comprehensive error handling and validation
-- Example usage documentation
-
-### Features
-- Register individual or multiple seeders
-- Run seeders by name or all at once
-- Execute seeders in specific order
-- Check seeder registration status
-- Get list of registered seeders
-- Command line interface with help system
-- Library mode for programmatic usage
+### Changed
+- Changed module name from github.com to personal go.risoftinc.com

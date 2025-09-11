@@ -18,7 +18,7 @@ A flexible and extensible seeder package for Go applications. Perfect for seedin
 ## 📦 Installation
 
 ```bash
-go get github.com/risoftinc/goseeder
+go get go.risoftinc.com/goseeder
 ```
 
 ## 🚀 Quick Start
@@ -30,7 +30,7 @@ package main
 
 import (
     "log"
-    "github.com/risoftinc/goseeder"
+    "go.risoftinc.com/goseeder"
 )
 
 func main() {
@@ -58,7 +58,7 @@ package main
 
 import (
     "log"
-    "github.com/risoftinc/goseeder"
+    "go.risoftinc.com/goseeder"
 )
 
 func main() {
@@ -259,7 +259,7 @@ package main
 
 import (
     "log"
-    "github.com/risoftinc/goseeder"
+    "go.risoftinc.com/goseeder"
 )
 
 type User struct {
@@ -419,7 +419,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you have any questions or need help, please:
 
-1. Check the [Issues](https://github.com/risoftinc/seeder/issues) page
+1. Check the [Issues](https://github.com/risoftinc/goseeder/issues) page
 2. Create a new issue if your question isn't already answered
 3. Join our community discussions
 
